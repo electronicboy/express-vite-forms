@@ -14,14 +14,19 @@ form.addEventListener('submit', (e) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
-    }).then(response => {
-        return response.json();
-    }).then(data => {
-        addEntry(data)
     }).catch((error) => {
         const errorElement = document.createElement('p')
         errorElement.innerHTML = error.message;
         form.appendChild(errorElement)
+    }).then(response => {
+        if (response != null) {
+            return response.json();
+        }
+        return null;
+    }).then(data => {
+        if (data != null) {
+            addEntry(data)
+        }
     })
 
 })
@@ -29,7 +34,7 @@ form.addEventListener('submit', (e) => {
 
 fetch("https://express-vite-forms.onrender.com/messages").then(response => response.json()).then(data => {
     console.log(data)
-    for(let entry of data) {
+    for (let entry of data) {
         addEntry(entry);
 
     }
