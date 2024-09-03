@@ -8,7 +8,7 @@ form.addEventListener('submit', (e) => {
     const data = Object.fromEntries(formData);
 
 
-    fetch("http://localhost:8081/message", {
+    fetch("https://express-vite-forms.onrender.com/message", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -17,28 +17,36 @@ form.addEventListener('submit', (e) => {
     }).then(response => {
         return response.json();
     }).then(data => {
-        console.log(data)
+        addEntry(data)
+    }).catch((error) => {
+        const errorElement = document.createElement('p')
+        errorElement.innerHTML = error.message;
+        form.appendChild(errorElement)
     })
 
 })
 
 
-fetch("http://localhost:8081/messages").then(response => response.json()).then(data => {
+fetch("https://express-vite-forms.onrender.com/messages").then(response => response.json()).then(data => {
     console.log(data)
     for(let entry of data) {
-        const username = entry.username;
-        const message = entry.message;
-        let bookEntry = document.createElement('div');
-
-        let userHolder = document.createElement('span');
-        userHolder.textContent = username;
-        let messageHolder = document.createElement('p');
-        messageHolder.textContent = message;
-
-        bookEntry.appendChild(userHolder);
-        bookEntry.appendChild(messageHolder);
-
-        document.getElementById('message-container').appendChild(bookEntry);
+        addEntry(entry);
 
     }
 })
+
+function addEntry(entry) {
+    const username = entry.username;
+    const message = entry.message;
+    let bookEntry = document.createElement('div');
+
+    let userHolder = document.createElement('span');
+    userHolder.textContent = username;
+    let messageHolder = document.createElement('p');
+    messageHolder.textContent = message;
+
+    bookEntry.appendChild(userHolder);
+    bookEntry.appendChild(messageHolder);
+
+    messageContainerElement.appendChild(bookEntry);
+}
