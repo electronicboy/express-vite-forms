@@ -38,6 +38,10 @@ fetch("https://express-vite-forms.onrender.com/messages").then(response => respo
         addEntry(entry);
 
     }
+}).catch((error) => {
+    const errorElement = document.createElement('p')
+    errorElement.innerHTML = error.message;
+    form.appendChild(errorElement)
 })
 
 function addEntry(entry) {
